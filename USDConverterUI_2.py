@@ -4,7 +4,7 @@ from PySide2.QtGui import QFont, QIcon
 from PySide2.QtWidgets import (QComboBox, QFrame, QHBoxLayout, QLabel,
                                QLineEdit, QListWidget, QMainWindow,
                                QMessageBox, QPushButton, QRadioButton,
-                               QStatusBar, QVBoxLayout, QWidget, QApplication)
+                               QStatusBar, QVBoxLayout, QWidget, QCheckBox, QApplication)
 
 SRC_PATH = "M:\\Notes\\Tools\\USD_Megascan_Importer"
 
@@ -117,6 +117,7 @@ class USD_UI(QMainWindow):
         ButtonLayout.addWidget(self.Split)
         ButtonLayout.addStretch()
         
+        self.RenderVariantLayers = QCheckBox("Render Variants Individually?")
         
         self.ImportLayout = QVBoxLayout()
         self.ImportLayout.addWidget(ImportHeading)
@@ -126,22 +127,35 @@ class USD_UI(QMainWindow):
         self.ImportLayout.addSpacing(10)
         self.ImportLayout.addWidget(label2)
         self.ImportLayout.addLayout(ButtonLayout)
+        self.ImportLayout.addSpacing(10)
+        self.ImportLayout.addWidget(self.RenderVariantLayers)
+        self.ImportLayout.setAlignment(self.RenderVariantLayers, Qt.AlignHCenter)
 
 
     #--------- Choose Import Method ---------#
     def _updateImportMethod(self, data):
-        ...
+        if self.Single.isChecked():
+            self.RenderVariantLayers.setEnabled(False)
+            self.RenderVariantLayers.setChecked(False)
+        elif self.Variant.isChecked():
+            self.RenderVariantLayers.setEnabled(True)
+        elif self.Split.isChecked():
+            self.RenderVariantLayers.setEnabled(True)
 
     #--------- Help ---------#
     def convert_was_clicked(self):
+        rnderVariants = self.RenderVariantLayers.isChecked()
+        
+        ExportPrefix = self.SetPathPrefixCombo.currentText()
+
         if self.Single.isChecked():
-            master_conversion_USD.mainSingle()
+            master_conversion_USD.mainSingle(ExportPrefix)
             print("single")
         elif self.Variant.isChecked():
-            master_conversion_USD.SOPVariants()
+            master_conversion_USD.SOPVariants(ExportPrefix, rnderVariants)
             print("Variant")
         elif self.Split.isChecked():
-            master_conversion_USD.subSOPVariants()
+            master_conversion_USD.subSOPVariants(ExportPrefix, rnderVariants)
             print("Split")
     
     #--------- Help ---------#

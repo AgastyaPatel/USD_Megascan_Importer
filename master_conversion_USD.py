@@ -8,7 +8,7 @@ from MaterialXSubnet_v01_02 import create_MTLX_Subnet
 from Generate_USD_02_Variant_Asset import USD_Asset_Builder
 
 
-def mainSingle():   # Working
+def mainSingle(Exp_prefix_path):   # Working
 
     if len(hou.selectedNodes()) == 0:
         hou.ui.displayMessage("Select a Megascan Imported Asset Subnet")
@@ -21,14 +21,14 @@ def mainSingle():   # Working
             prinShader = hou.node(ASSET_MAT_PATH)
             maps = Texture_Files().GetMapsFromNode(prinShader)
             
-            MS = USD_Asset_Builder(ASSET_NAME, ASSET_PATH)
+            MS = USD_Asset_Builder(ASSET_NAME, ASSET_PATH, Exp_prefix_path)
             MS.singleGeoImport()
 
             create_MTLX_Subnet(MS.asset_matLib, maps, ASSET_NAME)
             MS.setMeshExport()
 
 
-def SOPVariants():  # 
+def SOPVariants(Exp_prefix_path, RndrVarLayers):  # 
 
     print(MS_Asset_Data().SOPvariantsData())
     if len(hou.selectedNodes()) == 0:
@@ -44,13 +44,13 @@ def SOPVariants():  #
             prinShader = hou.node(ASSET_MAT_PATH)
             maps = Texture_Files().GetMapsFromNode(prinShader)
 
-            MS = USD_Asset_Builder(ASSET_NAME, ASSET_PATH)
+            MS = USD_Asset_Builder(ASSET_NAME, ASSET_PATH, Exp_prefix_path)
             MS.variantSOPsGeoImport(ASSET_ITER_RANGE)
             
             create_MTLX_Subnet(MS.asset_matLib, maps, ASSET_NAME)
-            MS.setMeshExport()
+            MS.setMeshExport(RndrVarLayers)
 
-def subSOPVariants():
+def subSOPVariants(Exp_prefix_path, RndrVarLayers):
 
     if len(hou.selectedNodes()) == 0:
         hou.ui.displayMessage("Select a Megascan Imported Asset Subnet")
@@ -63,8 +63,8 @@ def subSOPVariants():
             prinShader = hou.node(ASSET_MAT_PATH)
             maps = Texture_Files().GetMapsFromNode(prinShader)
 
-            MS = USD_Asset_Builder(ASSET_NAME, ASSET_PATH)
+            MS = USD_Asset_Builder(ASSET_NAME, ASSET_PATH, Exp_prefix_path)
             MS.variantSub_SOPGeoImport(ASSET_ITER_RANGE - 1)
             
             create_MTLX_Subnet(MS.asset_matLib, maps, ASSET_NAME)
-            MS.setMeshExport()
+            MS.setMeshExport(RndrVarLayers)
