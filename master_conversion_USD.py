@@ -1,6 +1,8 @@
-import hou, sys
-varPath = "M:\\Notes\\Tools\\USD_Megascan_Importer"
-sys.path.append(varPath)
+import os, sys
+from pathlib import Path
+scripts = os.getenv('HOUDINI_SCRIPT_PATH')
+SRC_PATH = str(scripts + '/USD_Megascan_Importer')
+# varPath = "M:\\Notes\\Tools\\USD_Megascan_Importer"
 
 from Get_Bridge_Asset_2 import MS_Asset_Data
 from Get_Maps_v01_02 import Texture_Files

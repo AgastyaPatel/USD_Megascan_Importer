@@ -1,8 +1,10 @@
-import sys, os
 from PySide2.QtCore import Qt
 from PySide2.QtWidgets import QApplication, QPushButton, QListWidget, QVBoxLayout, QHBoxLayout, QWidget, QMessageBox, QLineEdit
-
-SRC_PATH = "M:\\Notes\\Tools\\USD_Megascan_Importer"
+import os, sys
+from pathlib import Path
+scripts = os.getenv('HOUDINI_SCRIPT_PATH')
+SRC_PATH = str(scripts + '/USD_Megascan_Importer')
+# SRC_PATH = "M:\\Notes\\Tools\\USD_Megascan_Importer"
 
 class ExportPathVarUI(QWidget):
     def __init__(self, parentWidget):

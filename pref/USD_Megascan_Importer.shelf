@@ -1,4 +1,45 @@
-import os, sys
+<?xml version="1.0" encoding="UTF-8"?>
+<shelfDocument>
+  <!-- This file contains definitions of shelves, toolbars, and tools.
+ It should not be hand-edited when it is being used by the application.
+ Note, that two definitions of the same element are not allowed in
+ a single file. -->
+
+  <toolshelf name="USD_Megascan_Importer" label="USD Megascan Importer">
+    <memberTool name="LoadTool"/>
+    <memberTool name="MS_USD_Convertor"/>
+    <memberTool name="AssetManagerAndConvertor"/>
+    <memberTool name="Help"/>
+  </toolshelf>
+
+  <tool name="AssetManagerAndConvertor" label="Open AssetManager + USD Convertor" icon="$HOUDINI_SCRIPT_PATH/USD_Megascan_Importer/bin/icons/asset.png">
+    <script scriptType="python"><![CDATA[import hou
+
+desktop = hou.ui.curDesktop()   ## Desktop Class
+panel_float_tab = desktop.createFloatingPanel(hou.paneTabType.NetworkEditor)   # floatingPanel Class
+panel_float_tab.setName("USD_IMPORTER")
+
+panel_float_tab.panes()[0].splitVertically()    #Pane
+
+panel_float_tab.panes()[0].showPaneTabsStow(False) 
+panel_float_tab.panes()[1].showPaneTabsStow(False) 
+
+pp1 = panel_float_tab.paneTabs()[0].setType(hou.paneTabType.PythonPanel)
+pp1.showToolbar(False) 
+
+pp2 = panel_float_tab.paneTabs()[1].setType(hou.paneTabType.PythonPanel)
+
+pp1.setActiveInterface(hou.pypanel.interfaceByName("MS_USD_Converter"))
+pp2.setActiveInterface(hou.pypanel.interfaceByName("layout_asset_gallery"))
+
+lag = pp2.activeInterface()
+
+
+]]></script>
+  </tool>
+
+  <tool name="MS_USD_Convertor" label="MS USD Convertor" icon="$HOUDINI_SCRIPT_PATH/USD_Megascan_Importer/bin/icons/USDLogo400x400.png">
+    <script scriptType="python"><![CDATA[import os, sys
 from pathlib import Path
 scripts = os.getenv('HOUDINI_SCRIPT_PATH')
 SRC_PATH = str(scripts + '/USD_Megascan_Importer')
@@ -158,13 +199,64 @@ class USD_UI(QMainWindow):
         self.EditPathWindow.show()
 
 
-def main():
-    # app = QApplication()
-    A = USD_UI()
-    A.show()
-    # app.exec_()
+A = USD_UI()
+A.show()
+]]></script>
+  </tool>
 
-# if __name__ == '__main__':
-#     main()
+  <tool name="Help" label="Help" icon="$HOUDINI_SCRIPT_PATH/USD_Megascan_Importer/bin/icons/help.png">
+    <script scriptType="python"><![CDATA[import hou
+from PySide2.QtWidgets import QApplication, QDialog, QLabel, QVBoxLayout, QPushButton
+from PySide2.QtGui import QIcon
 
-main()
+import os, sys, webbrowser
+scripts = os.getenv('HOUDINI_SCRIPT_PATH')
+SRC_PATH = str(scripts + '/USD_Megascan_Importer')
+
+class HelpUI(QDialog):
+    def __init__(self):
+        super().__init__()
+        self.setWindowTitle("Help/Support")
+        layout = QVBoxLayout()
+
+        self.setWindowTitle("Help - Megascan USD Asset Converter")
+        self.setWindowIcon(QIcon(SRC_PATH + "\\bin\\icons\\help.png"))
+        
+        label1 = QLabel("Kindly support the creator by giving Star â­ to the repository")
+        self.docBtn = QPushButton('Open Documentation')
+        self.support = QPushButton('Give Star â­')
+        contact = QLabel('AgastyaPatel on LinkedIn/Github\n Email: contact2agastya@gmail.com')
+        
+        self.docBtn.clicked.connect(self.open_doc)
+        self.support.clicked.connect(self.support_exec)
+        
+        layout.addWidget(label1)
+        layout.addWidget(self.docBtn)
+        layout.addWidget(self.support)
+        layout.addSpacing(20)
+        layout.addWidget(contact)
+        self.setLayout(layout)
+        
+    def open_doc(self):
+        webbrowser.open('https://agastyapatel.github.io/USD_Megascan_Importer/')
+
+    def support_exec(self):
+        webbrowser.open('https://github.com/AgastyaPatel/USD_Megascan_Importer')
+        
+
+dialog = HelpUI()
+dialog.show()
+]]></script>
+  </tool>
+
+  <tool name="LoadTool" label="Load Tool" icon="$HOUDINI_SCRIPT_PATH/USD_Megascan_Importer/bin/icons/load.png">
+    <script scriptType="python"><![CDATA[import hou
+import os, sys
+from pathlib import Path
+scripts = os.getenv('HOUDINI_SCRIPT_PATH')
+SRC_PATH = str(scripts + '/USD_Megascan_Importer')
+
+panel_file_path = SRC_PATH + "/pref/MS_USD_Converter.pypanel"
+hou.pypanel.installFile(panel_file_path)]]></script>
+  </tool>
+</shelfDocument>
