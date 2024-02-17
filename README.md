@@ -1,3 +1,5 @@
+> Consider giving ⭐ to the repository to support the project and creator
+
 # USD_Megascan_Importer
 Plugin Tool for Houdini which converts the Megascan Assets into USD in Solaris and stores them in Layout Asset Gallery
 
@@ -12,9 +14,6 @@ Technologies Used : HOM API, Python, QT and few libraries.
 
 UI
 ![UI](/bin/DEV/UI.jpeg)
-
-Tool System Design
-![UI](/bin/DEV/ToolSystem.png)
 
 Quick Demo
 ![UI](/bin/DEV/breakdown2.gif)
