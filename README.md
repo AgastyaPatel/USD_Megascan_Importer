@@ -18,6 +18,10 @@ Plugin Tool for Houdini which converts the Megascan Assets into USD in Solaris a
 Technologies Used : HOM API, Python, QT and few libraries.
 
 ## Installation Process
+0. Add Variable in .env file if it's not already set up. `.env file` is available at `C:\Users\<username>\Documents\houdini20.0\` \
+*Add this snipped to already existing .env file;* `HOUDINI_SCRIPT_PATH = C:\Users\<username>\Documents\houdini20.0\scripts` \
+Make sure to replace username with your username.
+
 1. Download the release zip\
 Unzip the folder `USD_Megascan_Importer` and save it at your houdini's preference folder `C:\Users\<username>\Documents\houdini20.0\scripts\` \
 
